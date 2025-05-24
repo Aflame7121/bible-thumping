@@ -77,10 +77,12 @@ export function validatePersonalityProfile(profile: PersonalityProfile): boolean
   }
 
   // Additional metadata validation
-  try {
-    new Date(profile.metadata.createdAt);
-    new Date(profile.metadata.updatedAt);
-  } catch {
+  const isValidDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    return !isNaN(date.getTime());
+  };
+
+  if (!isValidDate(profile.metadata.createdAt) || !isValidDate(profile.metadata.updatedAt)) {
     return false;
   }
 
